@@ -2,38 +2,47 @@
 #include <iostream>
 #include <stdexcept>
 #include <ctime>
-
-#include <queue>
-#include <vector>
-#include <map>
+/*++++++++++++++++*/
+#include<queue>
+#include<vector>
+#include<map>
+//*<map> is use for operator and size() */
 using namespace std;
-
+/*++++++++++++++++*/
 template<class T>
-class Node{
+class Node
+{
 public:
-    Node(){
+    Node()
+    {
         data = new T;
     }
-    Node(T d){
+    Node(T d)
+    {
         data = new T;
         (*data) = d;
     }
-    Node &operator=(T d){
+    Node &operator=(T d)
+    {
         (*data) = d;
         return *this;
     }
-    friend std::ostream &operator<<(std::ostream &out, Node n){
+    friend std::ostream &operator<<(std::ostream &out, Node n)
+    {
         out<<*(n.data);
         return out;
     }
-    friend std::ostream &operator<<(std::ostream &out, Node *n){
+    friend std::ostream &operator<<(std::ostream &out, Node *n)
+    {
         out<<*(n->data);
         return out;
     }
-    void setData(T d){
+    void setData(T d)
+    {
         *data = d;
     }
-    T &getData() const{
+    T &getData() const
+    {
         return *data;
     }
 protected:
@@ -41,37 +50,47 @@ protected:
 };
 
 template<class T>
-class ListNode : public Node<T>{
+class ListNode : public Node<T>
+{
 public:
-    ListNode() : Node<T>(){
+    ListNode() : Node<T>()
+    {
         prev = NULL;
         next = NULL;
     }
-    ListNode(T d) : Node<T>(d){
+    ListNode(T d) : Node<T>(d)
+    {
         prev = NULL;
         next = NULL;
     }
-    ListNode(ListNode *p, ListNode *n) : Node<T>(){
+    ListNode(ListNode *p, ListNode *n) : Node<T>()
+    {
         prev = p;
         next = n;
     }
-    ListNode(T d, ListNode *p, ListNode *n) : Node<T>(d){
+    ListNode(T d, ListNode *p, ListNode *n) : Node<T>(d)
+    {
         prev = p;
         next = n;
     }
-    ListNode *getNext() const{
+    ListNode *getNext() const
+    {
         return next;
     }
-    ListNode *getPrev() const{
+    ListNode *getPrev() const
+    {
         return prev;
     }
-    void setNext(ListNode *n){
+    void setNext(ListNode *n)
+    {
         next = n;
     }
-    void setPrev(ListNode *p){
+    void setPrev(ListNode *p)
+    {
         prev = p;
     }
-    ListNode &operator=(T d){
+    ListNode &operator=(T d)
+    {
         this->setData(d);
         return *this;
     }
@@ -80,15 +99,19 @@ private:
 };
 
 template<class T>
-class LinkList{
+class LinkList
+{
 public:
-    LinkList(){
+    LinkList()
+    {
         head = NULL;
         tail = NULL;
     }
-    void addFromHead(T d){
+    void addFromHead(T d)
+    {
         ListNode<T> *node = new ListNode<T>(d);
-        if(head != NULL){
+        if(head != NULL)
+        {
             head->setPrev(node);
         }
         node->setNext(head);
@@ -96,38 +119,47 @@ public:
         if(tail == NULL)
             tail = node;
     }
-    void addFromTail(T d){
+    void addFromTail(T d)
+    {
         ListNode<T> *node = new ListNode<T>(d);
-        if(tail != NULL){
+        if(tail != NULL)
+        {
             tail->setNext(node);
         }
         node->setPrev(tail);
         tail = node;
-        if(head == NULL)head = node;
+        if(head == NULL)
+            head = node;
     }
-    void addAfter(ListNode<T> *at, T d){
-        if(!exist(at))return;
+    void addAfter(ListNode<T> *at, T d)
+    {
+        if(!exist(at))
+            return;
         ListNode<T> *node = new ListNode<T>(d);
-        if(at->getNext() != NULL)at->getNext()->setPrev(node);//new 一個新的node在at後面
+        if(at->getNext() != NULL)
+            at->getNext()->setPrev(node);
         node->setNext(at->getNext());
         at->setNext(node);
         node->setPrev(at);
-        if(node->getNext() == NULL)tail = node;
+        if(node->getNext() == NULL)
+            tail = node;
     }
-    ListNode<T> *removeFromHead(){
+    ListNode<T> *removeFromHead()
+    {
         ListNode<T> *n = head;
-        if(head != NULL){
+        if(head != NULL)
+        {
             head = head->getNext();
             if(head != NULL)
                 head->setPrev(NULL);
             else
                 tail = NULL;
-            
             n->setNext(NULL);
         }
         return n;
     }
-    ListNode<T> *removeFromTail(){
+    ListNode<T> *removeFromTail()
+    {
         ListNode<T> *n = tail;
         if(tail != NULL)
         {
@@ -140,7 +172,8 @@ public:
         }
         return n;
     }
-    ListNode<T> *remove(ListNode<T> *n){
+    ListNode<T> *remove(ListNode<T> *n)
+    {
         if(!exist(n))
             return NULL;
         if(n == head)
@@ -153,25 +186,30 @@ public:
         n->setPrev(NULL);
         return n;
     }
-    ListNode<T> *exist(T d){
+    ListNode<T> *exist(T d)
+    {
         ListNode<T> *j = head;
-        while(j != NULL){
+        while(j != NULL)
+        {
             if(j->getData() == d)
                 return j;
             j = j->getNext();
         }
         return NULL;
     }
-    bool exist(ListNode<T> *n){
+    bool exist(ListNode<T> *n)
+    {
         ListNode<T> *j = head;
-        while(j != NULL){
+        while(j != NULL)
+        {
             if(j == n)
                 return true;
             j = j->getNext();
         }
         return false;
     }
-    ListNode<T> &operator[](int i){
+    ListNode<T> &operator[](int i)
+    {
         ListNode<T> *j = head;
         int k;
         for(k = 0;k < i && j != NULL;k ++)
@@ -180,10 +218,12 @@ public:
             throw std::invalid_argument("index does not exist.");
         return *j;
     }
-    void print() const{
+    void print() const
+    {
         ListNode<T> *j;
         j = head;
-        while(j != NULL){
+        while(j != NULL)
+        {
             std::cout<<(*j)<<" ";
             j = j->getNext();
         }
@@ -198,7 +238,8 @@ protected:
     A general tree is different from binary tree, every node in binary tree have at most two child node, but a node in general tree may have more than two child node.
 */
 template<class T>
-class TreeNode : public Node<T>{
+class TreeNode : public Node<T>
+{
 public:
     TreeNode() : Node<T>(){
         child = new LinkList<TreeNode<T> *>();
@@ -210,7 +251,7 @@ public:
         Add a child to this node.
     */
     void addChild(TreeNode *n){
-        child -> addFromTail(n);
+        child->addFromTail(n);
     }
     /*
         Add a child to this node.
@@ -222,8 +263,9 @@ public:
         Return the nth child of the node.
     */
     TreeNode<T> *operator[](int n){
-        return (*child)[n].getData();
+        return(*child)[n].getData();
     }
+    //(*child)[n] is from the function I set(operator overloading) and it is a ptr.use getData() to get the value
     
     
 private:
@@ -239,146 +281,151 @@ class Tree
 {
 public:
     Tree(){
-        root = NULL;
+      root = NULL;
     }
     /*
         return the nth node on this tree with level order.
     */
     TreeNode<T> *operator[](int n){
-        if(root == NULL) return NULL;
-        queue<TreeNode<T>*> q;
-        q.push(root);
-        TreeNode<T>*cur = q.front();
-        q.pop();
-        for(int i = 0; i < n ; i++){
-            int j = 0 ;
-            while(true){
-                try{
-                    TreeNode<T> *t = (*cur)[j];
-                    q.push(t);
-                }
-                catch(invalid_argument e){
-                    break;
-                }
-                j++;
-            }
-            cur = q.front();
-            q.pop();
+      if(root == NULL)return NULL;
+      queue<TreeNode<T>*>q;
+      q.push(root);
+      TreeNode<T>*cur = q.front();
+      q.pop();
+      for(int i = 0 ; i < n ; i++){
+        int j = 0 ;
+        while(true){
+          try{
+            TreeNode<T> *t = (*cur)[j];
+            //現在的節點的第幾個子節點
+            q.push(t);
+          }
+          catch(invalid_argument e){
+            break;
+            //no element in (*cur)[j]
+          }
+          j++;
         }
-        return cur;
+        cur = q.front();
+        q.pop();
+      }
+      return cur;
     }
     /*
         return the number of nodes on this tree.
     */
     int count(){
-        if(root == NULL) return 0;
-        queue<TreeNode<T>*>q;
-        q.push(root);
-        int cnt = 0;
-        
-        while(!q.empty()){
-            int size = q.size();
-            cnt += size;
-            for(int i = 0 ; i < size ; i++){
-                TreeNode<T> *cur = q.front();
-                q.pop();
-                int j = 0;
-                
-                while(true){
-                    try{
-                        TreeNode<T>*t = (*cur)[j];
-                        q.push(t);
-                    }
-                    catch(invalid_argument e){
-                        break;
-                    }
-                    j++;
-                }
+      if(root == NULL)return 0;
+      queue<TreeNode<T>*>q;
+      q.push(root);
+      int cnt = 0 ;
+      
+      while(!q.empty()){
+        int size = q.size();
+        cnt+= size;
+        for(int i = 0 ; i < size ; i++){
+          TreeNode<T> *cur = q.front();
+          q.pop();
+          int j = 0 ;
+          while(true){
+            try{
+              TreeNode<T>*t = (*cur)[j];
+              q.push(t);
             }
+            catch(invalid_argument e){
+              break;
+            }
+            j++;
+          }
         }
-        return cnt;
+      }
+      return cnt;
     }
     /*
         print all the node on this tree with level order.
     */
     void levelOrder(){
-        if(root == NULL)return;
-        //cout<<"Level Order: ";
-        queue<TreeNode<T>*>q;
-        q.push(root);
-        while(!q.empty()){
-            int size = q.size();
-            for(int i = 0 ; i < size ; i++){
-                TreeNode<T> *cur = q.front();
-                q.pop();
-                cout<<cur <<" ";
-                int j = 0 ;
-                while(true){
-                    try{
-                        TreeNode<T> *t = (*cur)[j];
-                        q.push(t);
-                    }
-                    catch(invalid_argument e){
-                        break;
-                    }
-                    j++;
-                }
+      if(root == NULL)return;
+      
+      queue<TreeNode<T>*>q;
+      q.push(root);
+      
+      while(!q.empty()){
+        int size = q.size();
+        for(int i = 0 ; i < size ; i++){
+          TreeNode<T> *cur = q.front();
+          q.pop();
+          cout<<cur<<" ";
+          
+          int j = 0;
+          while(true){
+            try{
+              TreeNode<T> *t = (*cur)[j];
+              q.push(t);
             }
+            catch(invalid_argument e){
+              break;
+            }
+            j++;
+          }
         }
-        cout<<endl;
+      }
+      //cout<<endl;
     }
     /*
         print all the node on this tree with preorder.
     */
-    void preorder()
-    {
-        _preorder(root);
+  //root -> left ->right
+    void preorder(){
+      _preorder(root);
     }
     /*
         print all the node on this tree with postorder.
     */
-    void postorder()
-    {
-        _postorder(root);
+  // left->right->root
+    void postorder(){
+      _postorder(root);
     }
     /*
         set the root of this tree.
     */
     void setRoot(T d){
-        root = new TreeNode<T>(d);
+      root = new TreeNode<T>(d);
     }
-    TreeNode<T> *getRoot(){
-        return root;
+      
+      TreeNode<T> *getRoot(){
+      return root;
     }
+  
 private:
     TreeNode<T> *root;
-    void _preorder(TreeNode<T> *r){
-        if(r == NULL)return;
-        cout<<r<<" ";
-        int j = 0;
-        while(1){
-            try{
-                _preorder((*r)[j]);
-            }
-            catch(invalid_argument e){
-                break;
-            }
-            j++;
+      void _preorder(TreeNode<T> *r){
+      if(r == NULL)return;
+      cout << r << " ";
+      int j = 0 ;
+      while(1){
+        try{
+          _preorder((*r)[j]);
         }
+        catch(invalid_argument e){
+          break;
+        }
+        j++;
+      }
     }
-    void _postorder(TreeNode<T> *r){
-        if(r == NULL)return;
-        int j = 0 ;
-        while(true){
-            try{
-                _postorder(root);
-            }
-            catch(invalid_argument e){
-                break;
-            }
-            j++;
+      void _postorder(TreeNode<T> *r){
+      if(r == NULL)return;
+      int j = 0 ;
+      while(true){
+        try{
+          _postorder((*r)[j]);
         }
-        cout<<r<<" ";
+        catch(invalid_argument e){
+          break;
+        }
+        j++;
+      }
+      cout<<r<<" ";
     }
 };
 
@@ -413,4 +460,3 @@ int main()
     cout <<endl;
     return 0;
 }
-
