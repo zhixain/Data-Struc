@@ -2,7 +2,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <ctime>
-
 #include <queue>
 #include <map>
 using namespace std;
@@ -97,14 +96,16 @@ private:
 };
 
 template<class T>
-class LinkList{
+class LinkList
+{
 public:
     LinkList()
     {
         head = NULL;
         tail = NULL;
     }
-    void addFromHead(T d){
+    void addFromHead(T d)
+    {
         ListNode<T> *node = new ListNode<T>(d);
         if(head != NULL)
         {
@@ -114,8 +115,6 @@ public:
         head = node;
         if(tail == NULL)
             tail = node;
-        
-        /*++++*/
         size++;
     }
     void addFromTail(T d)
@@ -129,7 +128,6 @@ public:
         tail = node;
         if(head == NULL)
             head = node;
-        /*++++*/
         size++;
     }
     void addAfter(ListNode<T> *at, T d)
@@ -144,7 +142,6 @@ public:
         node->setPrev(at);
         if(node->getNext() == NULL)
             tail = node;
-        /*++++*/
         size++;
     }
     ListNode<T> *removeFromHead()
@@ -159,7 +156,6 @@ public:
                 tail = NULL;
             n->setNext(NULL);
         }
-        /*++++*/
         size--;
         return n;
     }
@@ -175,7 +171,6 @@ public:
                 head = NULL;
             n->setPrev(NULL);
         }
-        /*++++*/
         size--;
         return n;
     }
@@ -191,7 +186,6 @@ public:
         n->getNext()->setPrev(n->getPrev());
         n->setNext(NULL);
         n->setPrev(NULL);
-        /*++++*/
         size--;
         return n;
     }
@@ -282,7 +276,7 @@ public:
     }
     void addLink(GraphNode<T> *node)
     {
-        list->addFromTail(node);
+        list->addFromHead(node);
     }
     bool exist(GraphNode<T> *node)
     {
