@@ -351,38 +351,47 @@ public:
             }
         }
     }
-    void DFS(WeightedGraphVertex<V, E> *v) {
-        if (v == nullptr)
-            return;
+    void DFS(WeightedGraphVertex<V, E> *v)
+       {
+           if (v == nullptr)
+               return;
 
-        stack<WeightedGraphVertex<V, E> *> s;
-        LinkList<WeightedGraphVertex<V, E> *> visited;
+           stack<WeightedGraphVertex<V, E> *> s;
+           LinkList<WeightedGraphVertex<V, E> *> visited;
 
-        s.push(v);
-        //visited.addFromTail(v);
+           s.push(v);
 
-        while (!s.empty()) {
-            WeightedGraphVertex<V, E> *current = s.top();
-            s.pop();
+           while (!s.empty())
+           {
+               WeightedGraphVertex<V, E> *current = s.top();
+               s.pop();
 
-            cout << current->getData() << " ";
+               // Check if the vertex is not visited
+               if (!visited.exist(current))
+               {
+                   visited.addFromTail(current);
 
-            ListNode<WeightedGraphEdge<V, E> *> *edgeNode = (*current)[0];
-            
-            while (edgeNode != nullptr) {
-                WeightedGraphEdge<V, E> *edge = edgeNode->getData();
-                WeightedGraphVertex<V, E> *neighbor = edge->getAnotherEnd(current);
+                   // Process the current vertex (print or do something else)
+                   cout << current->getData() << " ";
 
-                if (!visited.exist(neighbor)) {
-                    s.push(neighbor);
-                    visited.addFromTail(neighbor);
-                }
+                   // Visit neighbors
+                   ListNode<WeightedGraphEdge<V, E> *> *edgeNode = (*current)[0];
+                   while (edgeNode != nullptr)
+                   {
+                       WeightedGraphEdge<V, E> *edge = edgeNode->getData();
+                       WeightedGraphVertex<V, E> *neighbor = edge->getAnotherEnd(current);
 
-                edgeNode = edgeNode->getNext();
-            }
-        }
-    }
+                       // Check if the neighbor is not visited
+                       if (!visited.exist(neighbor))
+                       {
+                           s.push(neighbor);
+                       }
 
+                       edgeNode = edgeNode->getNext();
+                   }
+               }
+           }
+       }
 
 private:
     LinkList<WeightedGraphVertex<V, E> *> *vertex;
@@ -446,4 +455,3 @@ int main()
     g->DFS((*node)[rand() % 26].getData());
     return 0;
 }
-
